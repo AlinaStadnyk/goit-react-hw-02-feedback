@@ -1,15 +1,12 @@
 import React from 'react';
 
-const Feedback = ({ options, updateFeedback }) => {
-  return (
-    <div>
-      <div>
-        <h1>Please leave feedback</h1>
-        <button onClick={updateFeedback}>Good</button>
-        <button onClick={updateFeedback}>Neutral</button>
-        <button onClick={updateFeedback}>Bad</button>
-      </div>
-    </div>
-  );
-};
+const Feedback = ({ options, updateFeedback }) => (
+  <div>
+    {options.map(option => (
+      <button key={option} onClick={() => updateFeedback(option)}>
+        {option}
+      </button>
+    ))}
+  </div>
+);
 export default Feedback;

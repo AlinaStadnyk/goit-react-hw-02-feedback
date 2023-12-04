@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import Feedback from './Feedback';
 import Statistics from './Statistics';
+import Section from './Section';
+import Notification from './Notification';
 export class App extends Component {
   state = {
     good: 0,
@@ -8,23 +10,46 @@ export class App extends Component {
     bad: 0,
   };
 
-  updateFeedback = option => {
-    console.log([option]);
-
-    console.log(this.state);
-
+  updateFeedback = type => {
     this.setState(prevState => ({
-      [option]: prevState[option] + 1,
+      [type]: prevState[type] + 1,
     }));
   };
+  countTotalFeedback = () => {
+    return this.state.good + this.state.neutral + this.state.bad;
+  };
+  countPositivePercentage = () => {
+    const total = this.countTotalFeedback();
+    return total === 0 ? 0 : Math.round((this.state.good / total) * 100);
+  };
   render() {
+    const total = this.countTotalFeedback();
+    const percentage = this.countPositivePercentage();
+    console.log(total);
     return (
       <div>
-        <Feedback
-          options={this.options}
-          updateFeedback={this.updateFeedback}
-        ></Feedback>
-        <Statistics></Statistics>
+        <Section title="Please leave feedback">
+          <Feedback
+            options={Object.keys(this.state)}
+            updateFeedback={this.updateFeedback}
+          />
+        </Section>
+
+        {total === 0 ? (
+          <Section title="Statistics">
+            <Notification message={'There is no feedback yet'} />
+          </Section>
+        ) : (
+          <Section title="Statistics">
+            <Statistics
+              good={this.state.good}
+              neutral={this.state.neutral}
+              bad={this.state.bad}
+              total={total}
+              percentage={percentage}
+            />
+          </Section>
+        )}
       </div>
     );
   }
