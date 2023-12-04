@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React from 'react';
 
 const Feedback = ({ options, updateFeedback }) => {
   return (
