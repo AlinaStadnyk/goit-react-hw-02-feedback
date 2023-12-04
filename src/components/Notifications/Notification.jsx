@@ -1,8 +1,9 @@
 import React from 'react';
+import css from './Notifications.module.css';
 const Notification = ({ message }) => {
   return (
     <>
-      <p>{message}</p>
+      <p className={css.message}>{message}</p>
     </>
   );
 };
